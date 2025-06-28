@@ -12,3 +12,6 @@ godswill
 ```bash
 password
 ```
+
+**QUESTIONS ANSWERED (1,2,5)**
+
