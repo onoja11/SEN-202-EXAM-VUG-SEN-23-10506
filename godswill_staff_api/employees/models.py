@@ -33,6 +33,8 @@ class Manager(StaffBase,models.Model):
     staffDetails= models.OneToOneField(StaffBase,on_delete=models.CASCADE, related_name='manager_details', blank=True, null=True)
     department = models.CharField(max_length=50, blank=True, null=True)
     has_company_card = models.BooleanField(default=True)
+    class Meta:
+        verbose_name: "Manager"
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.staffDetails.username} ({self.department})"
@@ -42,6 +44,8 @@ class Intern(StaffBase,models.Model):
     department = models.CharField(max_length=50, blank=True, null=True)
     mentor = models.ForeignKey(Manager, on_delete=models.SET_NULL, null=True, related_name='intern')
     internship_end = models.DateField(blank=True, null=True)
+    class Meta:
+        verbose_name: "Intern"
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.internDetails}"
