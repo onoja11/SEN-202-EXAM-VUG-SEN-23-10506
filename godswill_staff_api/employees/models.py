@@ -8,6 +8,7 @@ from django.contrib.auth.models import Group, Permission
 
 
 class StaffBase(AbstractUser, PermissionsMixin):
+    username = models.CharField(max_length=150, unique=True, blank=False, null=False)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
@@ -28,19 +29,21 @@ class StaffBase(AbstractUser, PermissionsMixin):
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.email})"
     
-class Manager(StaffBase):
+class Manager(StaffBase,models.Model):
+    staffDetails= models.OneToOneField(StaffBase,on_delete=models.CASCADE, related_name='manager_details', blank=True, null=True)
     department = models.CharField(max_length=50, blank=True, null=True)
     has_company_card = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.position}"
+        return f"{self.first_name} {self.last_name} - {self.staffDetails.username} ({self.department})"
     
-class Intern(StaffBase):
+class Intern(StaffBase,models.Model):
+    internDetails= models.OneToOneField(StaffBase,on_delete=models.CASCADE, related_name='intern_details', blank=True, null=True)
     department = models.CharField(max_length=50, blank=True, null=True)
     mentor = models.ForeignKey(Manager, on_delete=models.SET_NULL, null=True, related_name='intern')
     internship_end = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.position}"
+        return f"{self.first_name} {self.last_name} - {self.internDetails.username} ({self.department})"
     
     
