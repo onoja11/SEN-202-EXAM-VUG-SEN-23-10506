@@ -44,6 +44,6 @@ class Intern(StaffBase,models.Model):
     internship_end = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.internDetails.username} ({self.department})"
+        return f"{self.first_name} {self.last_name} - {self.internDetails}"
     
     
